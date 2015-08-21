@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard Starter UI, by Keen IO</title>
+  <link rel="stylesheet" type="text/css" href="assets/lib/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/keen-dashboards.css" />
+</head>
+<body class="application">
+
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="navbar-brand" href="./">Dashboard Starter UI</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-left">
+          <li><a href="https://keen.io">Home</a></li>
+          <li><a href="https://keen.io/team">Team</a></li>
+          <li><a href="https://github.com/keenlabs/dashboards/tree/gh-pages/layouts/two-and-one">Source</a></li>
+          <li><a href="https://groups.google.com/forum/#!forum/keen-io-devs">Community</a></li><li><a href="http://stackoverflow.com/questions/tagged/keen-io?sort=newest&pageSize=15">Technical Support</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-sm-6">
+        <div class="chart-wrapper">
+          <div class="chart-title">
+            HDA prediction changes (past 7 days)
+          </div>
+          <div class="chart-stage" id="my_chart">
+
+          </div>
+          <div class="chart-notes">
+            Users changing their HDA predictions within the last 7 days.
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <p class="small text-muted">Built with &#9829; by <a href="https://keen.io">Keen IO</a></p>
+
+  </div>
+
+  <script type="text/javascript" src="assets/lib/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript" src="assets/lib/holderjs/holder.js"></script>
+  <script>
+    Holder.add_theme("white", { background:"#fff", foreground:"#a7a7a7", size:10 });
+  </script>
+
+  <script type="text/javascript" src="assets/lib/keen-js/dist/keen.min.js"></script>
+  <script type="text/javascript" src="assets/js/meta.js"></script>
+
+  <script>
+
+      var client = new Keen({
+          projectId: "55d47373672e6c7ccf5da540",
+          readKey: "ae9faddc1f5f0ce099f0e186ce6f4a6dc1d16120f655191f2d178cd92ec350ff8422b334c9fc0c6d3f2ad4c3ce7ad69aa3b67bf3c7902d86ef3906c5a1a5f4f20db8f21ac91a3ec6802f48245feaac937c319d02b22ba918ee01f01b067b2293817e9aba304a1d592e887515f4faff66"
+
+      });
+
+      Keen.ready(function(){
+
+          var query = new Keen.Query("count", {
+              eventCollection: "bet_change",
+              groupBy: "username",
+              targetProperty: "keen.id",
+              timeframe: "this_7_days"
+          });
+
+          client.draw(query, document.getElementById("my_chart"), {
+              title: false,
+              height: 250,
+              width: "auto",
+              chartOptions: {
+                  chartArea: {
+                      height: "85%",
+                      left: "5%",
+                      top: "5%",
+                      width: "80%"
+                  },
+                  isStacked: true
+              }
+          });
+
+      });
+
+  </script>
+
+</body>
+</html>
