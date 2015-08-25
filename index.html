@@ -36,7 +36,7 @@
                 <div class="chart-title">
                     HDA prediction changes (past 7 days)
                 </div>
-                <div class="chart-stage" id="bet_change_hda">
+                <div class="chart-stage" id="bet_change_hda_pie">
 
                 </div>
                 <div class="chart-notes">
@@ -48,17 +48,21 @@
         <div class="col-sm-6">
             <div class="chart-wrapper">
                 <div class="chart-title">
-                    LMS prediction changes (past 7 days)
+                    HDA prediction changes (past 7 days)
                 </div>
-                <div class="chart-stage" id="bet_change_lms">
-
+                <div class="chart-stage" id="bet_change_hda_bar">
                 </div>
                 <div class="chart-notes">
-                    Users changing their LMS predictions within the last 7 days.
+                    Occurrences of HDA prediction changes within the last 7 days.
                 </div>
             </div>
         </div>
 
+        <div class="col-sm-12">
+            <div class="chart-wrapper">
+                <div id="count-pageviews-metric"></div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -88,7 +92,7 @@
 
     Keen.ready(function () {
 
-        var hda_query = new Keen.Query("count", {
+        var hda_query_pie = new Keen.Query("count", {
             eventCollection: "bet_change",
             filters: [
                 {"operator": "eq", "property_name": "game", "property_value": "hda"},
@@ -99,7 +103,7 @@
             timeframe: "this_7_days"
         });
 
-        client.draw(hda_query, document.getElementById("bet_change_hda"), {
+        client.draw(hda_query_pie, document.getElementById("bet_change_hda_pie"), {
             chartType: "piechart",
             title: false,
             height: 250,
@@ -115,31 +119,44 @@
             }
         });
 
-        var lms_query = new Keen.Query("count", {
+        var hda_query_bar = new Keen.Query("count", {
             eventCollection: "bet_change",
+            interval: "daily",
             filters: [
-                {"operator": "eq", "property_name": "game", "property_value": "lms"},
+                {"operator": "eq", "property_name": "game", "property_value": "hda"},
                 {"operator": "eq", "property_name": "environment", "property_value": "production"}
             ],
-            groupBy: "username",
             targetProperty: "keen.id",
             timeframe: "this_7_days"
         });
 
-        client.draw(lms_query, document.getElementById("bet_change_lms"), {
-            chartType: "piechart",
+        client.draw(hda_query_bar, document.getElementById("bet_change_hda_bar"), {
+            chartType: "columnchart",
             title: false,
             height: 250,
             width: "auto",
             chartOptions: {
+                hAxis: {
+                    format:'E' // http://icu-project.org/apiref/icu4c/classSimpleDateFormat.html#_details
+                },
                 chartArea: {
-                    height: "100%",
+                    height: "80%",
                     left: "5%",
                     top: "5%",
-                    width: "100%"
+                    width: "90%"
                 },
                 pieHole: .4
             }
+        });
+
+        var count = new Keen.Query("count", {
+            eventCollection: "bet_change",
+            timeframe: "this_7_days"
+        });
+        client.draw(count, document.getElementById("count-pageviews-metric"), {
+            chartType: "metric",
+            title: "Total HDA prediction changes (7 days)",
+            colors: ["#49c5b1"]
         });
 
     });
