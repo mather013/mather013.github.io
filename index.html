@@ -36,7 +36,7 @@
                 <div class="chart-title">
                     HDA prediction changes (past 7 days)
                 </div>
-                <div class="chart-stage" id="bet_change_hda_pie">
+                <div class="chart-stage" id="hda_bet_change_query_pie">
 
                 </div>
                 <div class="chart-notes">
@@ -50,7 +50,7 @@
                 <div class="chart-title">
                     HDA prediction changes (past 7 days)
                 </div>
-                <div class="chart-stage" id="bet_change_hda_bar">
+                <div class="chart-stage" id="hda_bet_change_query_bar">
                 </div>
                 <div class="chart-notes">
                     Occurrences of HDA prediction changes within the last 7 days.
@@ -60,7 +60,43 @@
 
         <div class="col-sm-12">
             <div class="chart-wrapper">
-                <div id="count-pageviews-metric"></div>
+                <div id="hda_bet_change_metric"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    HDA predictions made (past 7 days)
+                </div>
+                <div class="chart-stage" id="hda_bet_create_query_pie">
+
+                </div>
+                <div class="chart-notes">
+                    Users making HDA predictions within the last 7 days.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    HDA predictions made (past 7 days)
+                </div>
+                <div class="chart-stage" id="hda_bet_create_query_bar">
+                </div>
+                <div class="chart-notes">
+                    Occurrences of HDA predictions created within the last 7 days.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="chart-wrapper">
+                <div id="hda_bet_create_metric"></div>
             </div>
         </div>
     </div>
@@ -92,7 +128,7 @@
 
     Keen.ready(function () {
 
-        var hda_query_pie = new Keen.Query("count", {
+        var hda_bet_change_query_pie = new Keen.Query("count", {
             eventCollection: "bet_change",
             filters: [
                 {"operator": "eq", "property_name": "game", "property_value": "hda"},
@@ -103,7 +139,7 @@
             timeframe: "this_7_days"
         });
 
-        client.draw(hda_query_pie, document.getElementById("bet_change_hda_pie"), {
+        client.draw(hda_bet_change_query_pie, document.getElementById("hda_bet_change_query_pie"), {
             chartType: "piechart",
             title: false,
             height: 250,
@@ -119,7 +155,7 @@
             }
         });
 
-        var hda_query_bar = new Keen.Query("count", {
+        var hda_bet_change_query_bar = new Keen.Query("count", {
             eventCollection: "bet_change",
             interval: "daily",
             filters: [
@@ -130,7 +166,7 @@
             timeframe: "this_7_days"
         });
 
-        client.draw(hda_query_bar, document.getElementById("bet_change_hda_bar"), {
+        client.draw(hda_bet_change_query_bar, document.getElementById("hda_bet_change_query_bar"), {
             chartType: "columnchart",
             title: false,
             height: 250,
@@ -139,6 +175,7 @@
                 hAxis: {
                     format:'E' // http://icu-project.org/apiref/icu4c/classSimpleDateFormat.html#_details
                 },
+                vAxis: { gridlines: { count: 6 } },
                 chartArea: {
                     height: "80%",
                     left: "5%",
@@ -149,13 +186,83 @@
             }
         });
 
-        var count = new Keen.Query("count", {
+        var hda_bet_change_metric = new Keen.Query("count", {
             eventCollection: "bet_change",
             timeframe: "this_7_days"
         });
-        client.draw(count, document.getElementById("count-pageviews-metric"), {
+
+
+        client.draw(hda_bet_change_metric, document.getElementById("hda_bet_change_metric"), {
             chartType: "metric",
             title: "Total HDA prediction changes (7 days)",
+            colors: ["#49c5b1"]
+        });
+
+        var hda_bet_create_query_pie = new Keen.Query("count", {
+            eventCollection: "bet_create",
+            filters: [
+                {"operator": "eq", "property_name": "game", "property_value": "hda"},
+                {"operator": "eq", "property_name": "environment", "property_value": "production"}
+            ],
+            groupBy: "username",
+            targetProperty: "keen.id",
+            timeframe: "this_7_days"
+        });
+
+        client.draw(hda_bet_create_query_pie, document.getElementById("hda_bet_create_query_pie"), {
+            chartType: "piechart",
+            title: false,
+            height: 250,
+            width: "auto",
+            chartOptions: {
+                chartArea: {
+                    height: "100%",
+                    left: "5%",
+                    top: "5%",
+                    width: "100%"
+                },
+                pieHole: .4
+            }
+        });
+
+        var hda_bet_create_query_bar = new Keen.Query("count", {
+            eventCollection: "bet_create",
+            interval: "daily",
+            filters: [
+                {"operator": "eq", "property_name": "game", "property_value": "hda"},
+                {"operator": "eq", "property_name": "environment", "property_value": "production"}
+            ],
+            targetProperty: "keen.id",
+            timeframe: "this_7_days"
+        });
+
+        client.draw(hda_bet_create_query_bar, document.getElementById("hda_bet_create_query_bar"), {
+            chartType: "columnchart",
+            title: false,
+            height: 250,
+            width: "auto",
+            chartOptions: {
+                hAxis: {
+                    format:'E' // http://icu-project.org/apiref/icu4c/classSimpleDateFormat.html#_details
+                },
+                vAxis: { gridlines: { count: 6 } },
+                chartArea: {
+                    height: "80%",
+                    left: "5%",
+                    top: "5%",
+                    width: "90%"
+                },
+                pieHole: .4
+            }
+        });
+
+        var hda_bet_create_metric = new Keen.Query("count", {
+            eventCollection: "bet_create",
+            timeframe: "this_7_days"
+        });
+        client.draw(hda_bet_create_metric, document.getElementById("hda_bet_create_metric"), {
+            chartType: "metric",
+            title: "Total HDA predictions made (7 days)",
             colors: ["#49c5b1"]
         });
 
