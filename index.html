@@ -195,7 +195,7 @@
 
         var hda_bet_create_query_line = new Keen.Query("count", {
             eventCollection: "bet_create",
-            interval: "daily",
+            interval: "hourly",
             groupBy: "username",
             filters: [
                 {"operator": "eq", "property_name": "game", "property_value": "hda"},
@@ -211,6 +211,7 @@
             height: 250,
             width: "auto",
             chartOptions: {
+                vAxis: { gridlines: { count: 6 } },
                 hAxis: {
                     format:'E' // http://icu-project.org/apiref/icu4c/classSimpleDateFormat.html#_details
                 },
@@ -218,7 +219,7 @@
                     height: "80%",
                     left: "5%",
                     top: "5%",
-                    width: "80%"
+                    width: "75%"
                 },
                 pieHole: .4
             }
