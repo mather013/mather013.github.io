@@ -34,13 +34,13 @@
         <div class="col-sm-6">
             <div class="chart-wrapper">
                 <div class="chart-title">
-                    HDA prediction changes (past 7 days)
+                    5 Alive changes (past 7 days)
                 </div>
-                <div class="chart-stage" id="hda_bet_change_query_pie">
+                <div class="chart-stage" id="fa_bet_change_query_pie">
 
                 </div>
                 <div class="chart-notes">
-                    Users changing their HDA predictions within the last 7 days.
+                    Users changing their 5 Alive within the last 7 days.
                 </div>
             </div>
         </div>
@@ -48,10 +48,10 @@
         <div class="col-sm-6">
             <div class="chart-wrapper">
                 <div class="chart-title">
-                    HDA totals (past 7 days)
+                    5 Alive totals (past 7 days)
                 </div>
-                <div id="hda_bet_change_metric"></div><br>
-                <div id="hda_bet_create_metric"></div>
+                <div id="fa_bet_change_metric"></div><br>
+                <div id="fa_bet_create_metric"></div>
             </div>
         </div>
     </div>
@@ -60,12 +60,12 @@
         <div class="col-sm-6">
             <div class="chart-wrapper">
                 <div class="chart-title">
-                    HDA prediction changes (past 7 days)
+                    5 Alive changes (past 7 days)
                 </div>
-                <div class="chart-stage" id="hda_bet_change_query_bar">
+                <div class="chart-stage" id="fa_bet_change_query_bar">
                 </div>
                 <div class="chart-notes">
-                    Occurrences of HDA prediction changes within the last 7 days.
+                    Occurrences of 5 Alive changes within the last 7 days.
                 </div>
             </div>
         </div>
@@ -73,12 +73,12 @@
         <div class="col-sm-6">
             <div class="chart-wrapper">
                 <div class="chart-title">
-                    HDA new predictions (past 7 days)
+                    5 Alive new (past 7 days)
                 </div>
-                <div class="chart-stage" id="hda_bet_create_query_line">
+                <div class="chart-stage" id="fa_bet_create_query_line">
                 </div>
                 <div class="chart-notes">
-                    Occurrences of HDA new predictions within the last 7 days.
+                    Occurrences of new 5 Alive selections within the last 7 days.
                 </div>
             </div>
         </div>
@@ -111,6 +111,28 @@
 
     Keen.ready(function () {
 
+        //
+        // HDA change (count)
+        //
+        var hda_bet_change_metric = new Keen.Query("count", {
+            eventCollection: "bet_change",
+            filters: [
+                {"operator": "eq", "property_name": "game", "property_value": "hda"},
+                {"operator": "eq", "property_name": "environment", "property_value": "production"}
+            ],
+            timeframe: "this_7_days"
+        });
+
+
+        client.draw(hda_bet_change_metric, document.getElementById("hda_bet_change_metric"), {
+            chartType: "metric",
+            title: "HDA prediction changes (7 days)",
+            colors: ["#49c5b1"]
+        });
+
+        //
+        // HDA change (pie)
+        //
         var hda_bet_change_query_pie = new Keen.Query("count", {
             eventCollection: "bet_change",
             filters: [
@@ -138,6 +160,9 @@
             }
         });
 
+        //
+        // HDA change (bar)
+        //
         var hda_bet_change_query_bar = new Keen.Query("count", {
             eventCollection: "bet_change",
             interval: "daily",
@@ -170,18 +195,27 @@
             }
         });
 
-        var hda_bet_change_metric = new Keen.Query("count", {
-            eventCollection: "bet_change",
+        //
+        // HDA new (count)
+        //
+        var hda_bet_create_metric = new Keen.Query("count", {
+            eventCollection: "bet_create",
+            filters: [
+                {"operator": "eq", "property_name": "game", "property_value": "hda"},
+                {"operator": "eq", "property_name": "environment", "property_value": "production"}
+            ],
             timeframe: "this_7_days"
         });
 
-
-        client.draw(hda_bet_change_metric, document.getElementById("hda_bet_change_metric"), {
+        client.draw(hda_bet_create_metric, document.getElementById("hda_bet_create_metric"), {
             chartType: "metric",
-            title: "HDA prediction changes (7 days)",
-            colors: ["#49c5b1"]
+            title: "HDA new predictions (7 days)",
+            colors: ["#79CDCD"]
         });
 
+        //
+        // HDA new (pie)
+        //
         var hda_bet_create_query_pie = new Keen.Query("count", {
             eventCollection: "bet_create",
             filters: [
@@ -225,17 +259,154 @@
             }
         });
 
-        var hda_bet_create_metric = new Keen.Query("count", {
-            eventCollection: "bet_create",
+        //
+        // 5 Alive change (count)
+        //
+        var fa_bet_change_metric = new Keen.Query("count", {
+            eventCollection: "bet_change",
+            filters: [
+                {"operator": "eq", "property_name": "game", "property_value": "five_alive"},
+                {"operator": "eq", "property_name": "environment", "property_value": "production"}
+            ],
             timeframe: "this_7_days"
         });
 
 
-        client.draw(hda_bet_create_metric, document.getElementById("hda_bet_create_metric"), {
+        client.draw(fa_bet_change_metric, document.getElementById("fa_bet_change_metric"), {
             chartType: "metric",
-            title: "HDA new predictions (7 days)",
+            title: "5 Alive changes (7 days)",
+            colors: ["#49c5b1"]
+        });
+
+        //
+        // 5 Alive change (bar)
+        //
+        var fa_bet_change_query_bar = new Keen.Query("count", {
+            eventCollection: "bet_change",
+            interval: "daily",
+            filters: [
+                {"operator": "eq", "property_name": "game", "property_value": "five_alive"},
+                {"operator": "eq", "property_name": "environment", "property_value": "production"}
+            ],
+            targetProperty: "keen.id",
+            timeframe: "this_7_days"
+        });
+
+        client.draw(fa_bet_change_query_bar, document.getElementById("fa_bet_change_query_bar"), {
+            chartType: "columnchart",
+            title: false,
+            height: 250,
+            width: "auto",
+            colors: ["#49c5b1"],
+            chartOptions: {
+                hAxis: {
+                    format:'E' // http://icu-project.org/apiref/icu4c/classSimpleDateFormat.html#_details
+                },
+                vAxis: { gridlines: { count: 6 } },
+                chartArea: {
+                    height: "80%",
+                    left: "5%",
+                    top: "5%",
+                    width: "90%"
+                },
+                pieHole: .4
+            }
+        });
+
+        //
+        // 5 Alive change (pie)
+        //
+        var fa_bet_change_query_pie = new Keen.Query("count", {
+            eventCollection: "bet_change",
+            filters: [
+                {"operator": "eq", "property_name": "game", "property_value": "five_alive"},
+                {"operator": "eq", "property_name": "environment", "property_value": "production"}
+            ],
+            groupBy: "username",
+            targetProperty: "keen.id",
+            timeframe: "this_7_days"
+        });
+
+        client.draw(fa_bet_change_query_pie, document.getElementById("fa_bet_change_query_pie"), {
+            chartType: "piechart",
+            title: false,
+            height: 250,
+            width: "auto",
+            chartOptions: {
+                chartArea: {
+                    height: "100%",
+                    left: "5%",
+                    top: "5%",
+                    width: "100%"
+                },
+                pieHole: .4
+            }
+        });
+
+        //
+        // 5 Alive new (count)
+        //
+        var fa_bet_create_metric = new Keen.Query("count", {
+            eventCollection: "bet_create",
+            filters: [
+                {"operator": "eq", "property_name": "game", "property_value": "five_alive"},
+                {"operator": "eq", "property_name": "environment", "property_value": "production"}
+            ],
+            timeframe: "this_7_days"
+        });
+
+        client.draw(fa_bet_create_metric, document.getElementById("fa_bet_create_metric"), {
+            chartType: "metric",
+            title: "5 Alive selections (7 days)",
             colors: ["#79CDCD"]
         });
+
+        //
+        // 5 Alive new (pie)
+        //
+        var fa_bet_create_query_pie = new Keen.Query("count", {
+            eventCollection: "bet_create",
+            filters: [
+                {"operator": "eq", "property_name": "game", "property_value": "five_alive"},
+                {"operator": "eq", "property_name": "environment", "property_value": "production"}
+            ],
+            groupBy: "username",
+            targetProperty: "keen.id",
+            timeframe: "this_7_days"
+        });
+
+        var fa_bet_create_query_line = new Keen.Query("count", {
+            eventCollection: "bet_create",
+            interval: "hourly",
+            groupBy: "username",
+            filters: [
+                {"operator": "eq", "property_name": "game", "property_value": "five_alive"},
+                {"operator": "eq", "property_name": "environment", "property_value": "production"}
+            ],
+            targetProperty: "keen.id",
+            timeframe: "this_7_days"
+        });
+
+        client.draw(fa_bet_create_query_line, document.getElementById("fa_bet_create_query_line"), {
+            chartType: "areachart",
+            title: false,
+            height: 250,
+            width: "auto",
+            chartOptions: {
+                vAxis: { gridlines: { count: 6 } },
+                hAxis: {
+                    format:'E' // http://icu-project.org/apiref/icu4c/classSimpleDateFormat.html#_details
+                },
+                chartArea: {
+                    height: "80%",
+                    left: "5%",
+                    top: "5%",
+                    width: "75%"
+                },
+                pieHole: .4
+            }
+        });
+
 
     });
 
