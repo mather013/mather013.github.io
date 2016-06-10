@@ -34,13 +34,13 @@
         <div class="col-sm-6">
             <div class="chart-wrapper">
                 <div class="chart-title">
-                    5 Alive changes (past 7 days)
+                    5 Alive changes (past 14 days)
                 </div>
                 <div class="chart-stage" id="fa_bet_change_query_pie">
 
                 </div>
                 <div class="chart-notes">
-                    Users changing their 5 Alive within the last 7 days.
+                    Users changing their 5 Alive within the last 14 days.
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
         <div class="col-sm-6">
             <div class="chart-wrapper">
                 <div class="chart-title">
-                    5 Alive totals (past 7 days)
+                    5 Alive totals (past 14 days)
                 </div>
                 <div id="fa_bet_change_metric"></div><br>
                 <div id="fa_bet_create_metric"></div>
@@ -60,12 +60,12 @@
         <div class="col-sm-6">
             <div class="chart-wrapper">
                 <div class="chart-title">
-                    5 Alive changes (past 7 days)
+                    5 Alive changes (past 14 days)
                 </div>
                 <div class="chart-stage" id="fa_bet_change_query_bar">
                 </div>
                 <div class="chart-notes">
-                    Occurrences of 5 Alive changes within the last 7 days.
+                    Occurrences of 5 Alive changes within the last 14 days.
                 </div>
             </div>
         </div>
@@ -73,12 +73,12 @@
         <div class="col-sm-6">
             <div class="chart-wrapper">
                 <div class="chart-title">
-                    5 Alive new (past 7 days)
+                    5 Alive new (past 14 days)
                 </div>
                 <div class="chart-stage" id="fa_bet_create_query_line">
                 </div>
                 <div class="chart-notes">
-                    Occurrences of new 5 Alive selections within the last 7 days.
+                    Occurrences of new 5 Alive selections within the last 14 days.
                 </div>
             </div>
         </div>
@@ -120,13 +120,13 @@
                 {"operator": "eq", "property_name": "game", "property_value": "hda"},
                 {"operator": "eq", "property_name": "environment", "property_value": "production"}
             ],
-            timeframe: "this_7_days"
+            timeframe: "this_14_days"
         });
 
 
         client.draw(hda_bet_change_metric, document.getElementById("hda_bet_change_metric"), {
             chartType: "metric",
-            title: "HDA prediction changes (7 days)",
+            title: "HDA prediction changes (14 days)",
             colors: ["#49c5b1"]
         });
 
@@ -141,7 +141,7 @@
             ],
             groupBy: "username",
             targetProperty: "keen.id",
-            timeframe: "this_7_days"
+            timeframe: "this_14_days"
         });
 
         client.draw(hda_bet_change_query_pie, document.getElementById("hda_bet_change_query_pie"), {
@@ -171,7 +171,7 @@
                 {"operator": "eq", "property_name": "environment", "property_value": "production"}
             ],
             targetProperty: "keen.id",
-            timeframe: "this_7_days"
+            timeframe: "this_14_days"
         });
 
         client.draw(hda_bet_change_query_bar, document.getElementById("hda_bet_change_query_bar"), {
@@ -204,12 +204,12 @@
                 {"operator": "eq", "property_name": "game", "property_value": "hda"},
                 {"operator": "eq", "property_name": "environment", "property_value": "production"}
             ],
-            timeframe: "this_7_days"
+            timeframe: "this_14_days"
         });
 
         client.draw(hda_bet_create_metric, document.getElementById("hda_bet_create_metric"), {
             chartType: "metric",
-            title: "HDA new predictions (7 days)",
+            title: "HDA new predictions (14 days)",
             colors: ["#79CDCD"]
         });
 
@@ -224,7 +224,7 @@
             ],
             groupBy: "username",
             targetProperty: "keen.id",
-            timeframe: "this_7_days"
+            timeframe: "this_14_days"
         });
 
         var hda_bet_create_query_line = new Keen.Query("count", {
@@ -236,7 +236,7 @@
                 {"operator": "eq", "property_name": "environment", "property_value": "production"}
             ],
             targetProperty: "keen.id",
-            timeframe: "this_7_days"
+            timeframe: "this_14_days"
         });
 
         client.draw(hda_bet_create_query_line, document.getElementById("hda_bet_create_query_line"), {
@@ -268,13 +268,13 @@
                 {"operator": "eq", "property_name": "game", "property_value": "five_alive"},
                 {"operator": "eq", "property_name": "environment", "property_value": "production"}
             ],
-            timeframe: "this_7_days"
+            timeframe: "this_14_days"
         });
 
 
         client.draw(fa_bet_change_metric, document.getElementById("fa_bet_change_metric"), {
             chartType: "metric",
-            title: "5 Alive changes (7 days)",
+            title: "5 Alive changes (14 days)",
             colors: ["#49c5b1"]
         });
 
@@ -289,7 +289,7 @@
                 {"operator": "eq", "property_name": "environment", "property_value": "production"}
             ],
             targetProperty: "keen.id",
-            timeframe: "this_7_days"
+            timeframe: "this_14_days"
         });
 
         client.draw(fa_bet_change_query_bar, document.getElementById("fa_bet_change_query_bar"), {
@@ -324,7 +324,7 @@
             ],
             groupBy: "username",
             targetProperty: "keen.id",
-            timeframe: "this_7_days"
+            timeframe: "this_14_days"
         });
 
         client.draw(fa_bet_change_query_pie, document.getElementById("fa_bet_change_query_pie"), {
@@ -352,12 +352,12 @@
                 {"operator": "eq", "property_name": "game", "property_value": "five_alive"},
                 {"operator": "eq", "property_name": "environment", "property_value": "production"}
             ],
-            timeframe: "this_7_days"
+            timeframe: "this_14_days"
         });
 
         client.draw(fa_bet_create_metric, document.getElementById("fa_bet_create_metric"), {
             chartType: "metric",
-            title: "5 Alive selections (7 days)",
+            title: "5 Alive selections (14 days)",
             colors: ["#79CDCD"]
         });
 
@@ -372,7 +372,7 @@
             ],
             groupBy: "username",
             targetProperty: "keen.id",
-            timeframe: "this_7_days"
+            timeframe: "this_14_days"
         });
 
         var fa_bet_create_query_line = new Keen.Query("count", {
@@ -384,7 +384,7 @@
                 {"operator": "eq", "property_name": "environment", "property_value": "production"}
             ],
             targetProperty: "keen.id",
-            timeframe: "this_7_days"
+            timeframe: "this_14_days"
         });
 
         client.draw(fa_bet_create_query_line, document.getElementById("fa_bet_create_query_line"), {
